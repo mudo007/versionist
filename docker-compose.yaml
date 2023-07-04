@@ -1,0 +1,38 @@
+version: '3.9'
+
+services:
+  versionist:
+    build:
+      context: ./
+      dockerfile: Dockerfile
+      ssh:
+        - default
+    image: diogoandrade/versionist:latest
+    secrets:
+      - github-ssh-key
+    container_name: versionist
+    ports:
+      - '3333:3333'
+      - '5555:5555'
+      - '3000:3000'
+      - '19000:19000'
+      - '19001:19001'
+      - '19002:19002'
+    expose:
+      - 3333
+      - 5555
+      - 3000
+      - 19000
+      - 19001
+      - 19002
+      - 19003
+    volumes:
+      - ${PWD}:/app
+    environment:
+      - EXPO_DEVTOOLS_LISTEN_ADDRESS=0.0.0.0 
+      - REACT_NATIVE_PACKAGER_HOSTNAME=192.168.0.231
+    tty: true
+    entrypoint: ['/bin/bash']
+secrets:
+  github-ssh-key:
+    file: ${HOME}/.ssh/id_ed25519
