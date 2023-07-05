@@ -1,40 +1,42 @@
-import axios from "axios";
+import axios, { AxiosResponse } from "axios";
 import { getSpotifyAccessToken } from './spotify_auth'
 
+require('dotenv').config()
 //configure spotify API
 const spotifyAuthAPI = axios.create({
   baseURL: "https://api.spotify.com"
 })
 
-//curl --request GET \
-// --url 'https://api.spotify.com/v1/search?q=genre%3Dmetal&type=album&market=PT&limit=50' \
-// --header 'Authorization: Bearer 1POdFZRZbvb...qqillRxMr2z'
-
 //search for metal albuns
-export const getMetalAlbuns = async function(max_results: number){
-  
-  //get access token
+export const getMetalAlbums = async function() {
+  // declare the bands you like on .env file
+  const bands: string[] = (process.env.BAND_ARRAY ?? '').split(',')
   const access_token = await getSpotifyAccessToken();
-  try{
 
-      const albumSearchResponse = await spotifyAuthAPI.get(
-        '/v1/search',
-        {
-          params:{
-            q: 'genre=metal',
-            type: 'album',
-            market: 'BR',
-            limit: '50'
-          },
-          headers:{
-            Authorization: `Bearer ${access_token}`
-          }
+  //we'll save the results to a map
+  const albumsLinks = new Map();
+
+  for (const band of bands) {
+    try {
+      const searchResponse: AxiosResponse<any> = await spotifyAuthAPI.get('/v1/search', {
+        params: {
+          // When the band name has empty spaces, it is required to replace it with a +
+          q: `artist=${band.replace(' ','+')}`,
+          type: 'album',
+          market: 'BR',
+          limit: '50'
+        },
+        headers: {
+          Authorization: `Bearer ${access_token}`
         }
-      )
-      return albumSearchResponse;
-  }catch(error){
-    console.log(error);
+      });
+      //We are interested only on the album name and spotify open link to it
+      searchResponse.data.albums.items.map((item: any) => albumsLinks.set(item.name, item.href));
+    } catch (error) {
+      console.log(error);
+    }
   }
-
-  // const response = await spotifyAuthAPI('/search')
-}
+  // Wait for all promises to resolve
+  await Promise.all(albumsLinks); 
+  return albumsLinks;
+};

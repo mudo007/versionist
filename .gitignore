@@ -10,6 +10,9 @@ course-material
 .DS_Store
 *.db
 
+# CSV
+*.csv
+
 # Diagnostic reports (https://nodejs.org/api/report.html)
 report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
 

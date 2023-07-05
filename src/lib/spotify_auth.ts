@@ -23,6 +23,5 @@ export const getSpotifyAccessToken = async function(){
     return response.data.access_token;
   } catch(error){
     console.log(error);
-    console.log(client_id);
   }
 }
