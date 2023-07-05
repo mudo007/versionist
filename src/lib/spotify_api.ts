@@ -31,7 +31,13 @@ export const getMetalAlbums = async function() {
         }
       });
       //We are interested only on the album name and spotify open link to it
-      searchResponse.data.albums.items.map((item: any) => albumsLinks.set(item.name, item.href));
+      searchResponse.data.albums.items.map((item: any) => 
+        //exclude compilations, Deluxe editions and remasters
+        item.album_type == 'album' && 
+        !item.name.toLowerCase().includes('deluxe') &&
+        !item.name.toLowerCase().includes('expanded') &&
+        !item.name.toLowerCase().includes('remaster') &&
+        albumsLinks.set(item.name, item.external_urls.spotify));
     } catch (error) {
       console.log(error);
     }
