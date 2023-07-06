@@ -21,6 +21,7 @@ I am working for a client in which it is required to name release versions as he
 3. If you want to use a container, the dockerfile and compose are already configured to mount the root dir inside the container
 ```
 docker compose up
+docker exec -it versionist bash
 ```
 4. Install dependencies
 ```
@@ -30,5 +31,4 @@ npm install
 ```
 npm run start:dev
 ```
-
 The "albums.csv" file should appear on the project root
