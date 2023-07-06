@@ -1,5 +1,5 @@
 # Versionist app
-This is a node.js project in which you declare an array of bands, and it will output a csv file with 50 albums of each one and their related spotify links. 
+This is a node.js project in which you declare an array of bands, and it will output a csv file with a shuffled list of 50 albums of each one and their related spotify links. It excludes any album that has "remix", "Remaster", "Deluxe", "Expanded".
 
 ## This sounds useless. Why are you doing this?
 I am working for a client in which it is required to name release versions as heavy metal album names. So this project helped me automate the versioning process by pre-generating 500+ future version names

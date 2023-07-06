@@ -37,6 +37,7 @@ export const getMetalAlbums = async function() {
         !item.name.toLowerCase().includes('deluxe') &&
         !item.name.toLowerCase().includes('expanded') &&
         !item.name.toLowerCase().includes('remaster') &&
+        !item.name.toLowerCase().includes('remix') &&
         albumsLinks.set(item.name, item.external_urls.spotify));
     } catch (error) {
       console.log(error);
